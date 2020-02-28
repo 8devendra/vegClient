@@ -3,6 +3,7 @@
 import 'package:flutter/material.dart';
 //import './main.dart';
 import './login/Login.dart';
+import './Home/home_page.dart';
 
 class RouteGenerator {
   static Route<dynamic> generateRoute(RouteSettings settings) {
@@ -13,11 +14,11 @@ class RouteGenerator {
       case '/':
         print('inside / ');
         return MaterialPageRoute(builder: (_) => Login());
-      case '/dashbord':
+      case '/home':
         print('inside dashbord ');
         if (args is String) {
           return MaterialPageRoute(
-            builder: (_) => null,//Dashbord(data:args),
+            builder: (_) => HomePage(data:args),
           ); // data: args
         }
         return _errorRoute();

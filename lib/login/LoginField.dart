@@ -87,8 +87,8 @@ class LoginField extends StatelessWidget {
           child: RaisedButton(
             onPressed: () {
               Navigator.of(context).pushNamed(
-                '/dashbord',
-                arguments: 'ON scond pages',
+                '/home',
+                arguments: 'ON HomePage',
               );
             },
             shape: RoundedRectangleBorder(
