@@ -13,6 +13,34 @@ class MainLayout extends StatefulWidget {
 class _MainLayoutState extends State<MainLayout> {
   List vegListData;
   ProgressDialog pr;
+
+  Future addVeg(String nm, String pr, String qt) async {
+    print('inaddVegWebCall()');
+
+    if (nm != '' && pr != '' && qt != '') {
+      print('inaddVegWebCall()');
+      var url = 'https://devlopeme.000webhostapp.com/insertCart.php?nm=' +
+          nm +
+          '&qty=' +
+          qt +
+          '&pr=' +
+          pr +
+          '';
+      var Response =
+          await http.get(url, headers: {"Accept": "application/json"});
+      if (Response.statusCode == 200) {
+        String responseBody = Response.body;
+        var resJson = json.decode(json.encode(responseBody));
+        print(resJson);
+      }
+    } else {
+      print('Empty Var');
+    }
+    //print(response.body);
+    //var data =jsonDecode(response.body);
+    //print(data.toString());
+  }
+
   Future getVeg() async {
     var url = 'https://devlopeme.000webhostapp.com/get.php';
     print('inGetVeg()1');
@@ -70,12 +98,14 @@ class _MainLayoutState extends State<MainLayout> {
               decoration: BoxDecoration(),
               //border: Border.all(width: 2.0, color: Colors.black)),
               child: Card(
-                
                 elevation: 5,
-                child:  InkWell(
-                  onLongPress:(){
-                    
-                  } ,
+                child: InkWell(
+                  onLongPress: () {
+                    addVeg(
+                        vegListData[index]["v_name"].toString().toUpperCase(),
+                        vegListData[index]["v_price"].toString().toUpperCase(),
+                        1.toString());
+                  },
                   child: GridTile(
                     child: Container(
                       child: Column(
@@ -107,7 +137,6 @@ class _MainLayoutState extends State<MainLayout> {
                         ],
                       ),
                     ),
-                    
                   ),
                 ),
               ), //Text(index.toString()),
