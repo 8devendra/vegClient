@@ -3,6 +3,8 @@ import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'package:progress_dialog/progress_dialog.dart';
 
+import '../globals.dart' as cartVal;
+
 class MainLayout extends StatefulWidget {
   @override
   _MainLayoutState createState() => _MainLayoutState();
@@ -28,6 +30,7 @@ class _MainLayoutState extends State<MainLayout> {
         setState(() {
           vegListData = resJson;
           print(vegListData.length);
+          print(vegListData);
         });
         pr.hide();
         // pr.hide().then((isHidden) {
@@ -67,33 +70,46 @@ class _MainLayoutState extends State<MainLayout> {
               decoration: BoxDecoration(),
               //border: Border.all(width: 2.0, color: Colors.black)),
               child: Card(
+                
                 elevation: 5,
-                child: GridTile(
+                child:  InkWell(
+                  onLongPress:(){
+                    
+                  } ,
+                  child: GridTile(
                     child: Container(
-                  child: Column(
-                    children: <Widget>[
-                      Container(
-                        height: 90,
-                        child: new Image.asset(
-                          "assets/image/diet.png",
-                          fit: BoxFit.fill,
-                        ),
+                      child: Column(
+                        children: <Widget>[
+                          Container(
+                            height: 90,
+                            child: new Image.asset(
+                              "assets/image/diet.png",
+                              fit: BoxFit.fill,
+                            ),
+                          ),
+                          Container(
+                            child: Text(
+                              vegListData[index]["v_name"]
+                                  .toString()
+                                  .toUpperCase(),
+                              style: TextStyle(fontWeight: FontWeight.bold),
+                            ),
+                          ),
+                          Container(
+                            child: Text(
+                              "\u20B9 " +
+                                  vegListData[index]["v_price"]
+                                      .toString()
+                                      .toUpperCase(),
+                              style: TextStyle(fontStyle: FontStyle.italic),
+                            ),
+                          ),
+                        ],
                       ),
-                      Container(
-                        child: Text(
-                          vegListData[index]["v_name"].toString().toUpperCase(),
-                          style: TextStyle(fontWeight: FontWeight.bold),
-                        ),
-                      ),
-                      Container(
-                        child: Text("\u20B9 " +
-                          vegListData[index]["v_price"].toString().toUpperCase(),
-                          style: TextStyle(fontStyle: FontStyle.italic),
-                        ),
-                      ),
-                    ],
+                    ),
+                    
                   ),
-                )),
+                ),
               ), //Text(index.toString()),
             );
           }),
