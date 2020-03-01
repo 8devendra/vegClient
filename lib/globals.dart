@@ -1,3 +1,3 @@
 library my_prj.globals;
 
-List cartData;
+int cart=5;

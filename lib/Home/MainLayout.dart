@@ -3,6 +3,8 @@ import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'package:progress_dialog/progress_dialog.dart';
 
+import './CartIcon.dart' as ab;
+
 import '../globals.dart' as cartVal;
 
 class MainLayout extends StatefulWidget {
@@ -12,6 +14,7 @@ class MainLayout extends StatefulWidget {
 
 class _MainLayoutState extends State<MainLayout> {
   List vegListData;
+  
   ProgressDialog pr;
 
   Future addVeg(String nm, String pr, String qt) async {
@@ -32,6 +35,11 @@ class _MainLayoutState extends State<MainLayout> {
         String responseBody = Response.body;
         var resJson = json.decode(json.encode(responseBody));
         print(resJson);
+        setState(() {
+          cartVal.cart=cartVal.cart+1;   
+          //ab.CartIcon.       
+        });
+        
       }
     } else {
       print('Empty Var');
@@ -92,7 +100,7 @@ class _MainLayoutState extends State<MainLayout> {
       child: GridView.builder(
           itemCount: vegListData == null ? 0 : vegListData.length,
           gridDelegate:
-              new SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 3),
+              new SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2),
           itemBuilder: (BuildContext context, int index) {
             return Container(
               decoration: BoxDecoration(),
@@ -101,6 +109,7 @@ class _MainLayoutState extends State<MainLayout> {
                 elevation: 5,
                 child: InkWell(
                   onLongPress: () {
+                    
                     addVeg(
                         vegListData[index]["v_name"].toString().toUpperCase(),
                         vegListData[index]["v_price"].toString().toUpperCase(),
@@ -111,18 +120,25 @@ class _MainLayoutState extends State<MainLayout> {
                       child: Column(
                         children: <Widget>[
                           Container(
-                            height: 90,
-                            child: new Image.asset(
-                              "assets/image/diet.png",
-                              fit: BoxFit.fill,
+                            height: MediaQuery.of(context).size.width * 0.30,
+                            child: Card(
+                              clipBehavior: Clip.antiAlias,
+                            
+                              //height: MediaQuery.of(context).size.width * 0.15,
+                              child: new Image.asset(
+                                "assets/image/diet.png",
+                                fit: BoxFit.fill,
+                              ),
                             ),
                           ),
                           Container(
+                            padding:EdgeInsets.fromLTRB(0, 2, 0, 0),
                             child: Text(
                               vegListData[index]["v_name"]
                                   .toString()
                                   .toUpperCase(),
                               style: TextStyle(fontWeight: FontWeight.bold),
+                              textAlign:TextAlign.center,
                             ),
                           ),
                           Container(

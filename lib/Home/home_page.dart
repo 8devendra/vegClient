@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'cartIcon.dart';
 //import 'vegLayout.dart';
 import 'MainLayout.dart';
+import '../globals.dart' as glob;
+import '../drawer/NevItem.dart';
 
 class HomePage extends StatelessWidget {
   final String data;
@@ -13,10 +15,11 @@ class HomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    
     return MaterialApp(
       home: Scaffold(
         drawer: Drawer(
-          child: Text('data'),
+          child: NevItem(),
           elevation: 3,
           
         ),
@@ -49,6 +52,7 @@ class HomePage extends StatelessWidget {
               },
             ),
           ],
+          
           /*leading: new IconButton(
             icon: new Icon(Icons.menu, color: Colors.black),
             onPressed: () => null, //Navigator.pop(context),
