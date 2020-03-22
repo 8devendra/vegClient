@@ -14,7 +14,7 @@ class MainLayout extends StatefulWidget {
 
 class _MainLayoutState extends State<MainLayout> {
   List vegListData;
-  
+
   ProgressDialog pr;
 
   Future addVeg(String nm, String pr, String qt) async {
@@ -36,10 +36,9 @@ class _MainLayoutState extends State<MainLayout> {
         var resJson = json.decode(json.encode(responseBody));
         print(resJson);
         setState(() {
-          cartVal.cart=cartVal.cart+1;   
-          //ab.CartIcon.       
+          cartVal.cart = cartVal.cart + 1;
+          //ab.CartIcon.
         });
-        
       }
     } else {
       print('Empty Var');
@@ -102,6 +101,7 @@ class _MainLayoutState extends State<MainLayout> {
           gridDelegate:
               new SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2),
           itemBuilder: (BuildContext context, int index) {
+            //print(vegListData[index]["vegImg"].toString());
             return Container(
               decoration: BoxDecoration(),
               //border: Border.all(width: 2.0, color: Colors.black)),
@@ -109,7 +109,6 @@ class _MainLayoutState extends State<MainLayout> {
                 elevation: 5,
                 child: InkWell(
                   onLongPress: () {
-                    
                     addVeg(
                         vegListData[index]["v_name"].toString().toUpperCase(),
                         vegListData[index]["v_price"].toString().toUpperCase(),
@@ -123,22 +122,25 @@ class _MainLayoutState extends State<MainLayout> {
                             height: MediaQuery.of(context).size.width * 0.30,
                             child: Card(
                               clipBehavior: Clip.antiAlias,
-                            
+
                               //height: MediaQuery.of(context).size.width * 0.15,
-                              child: new Image.asset(
-                                "assets/image/diet.png",
-                                fit: BoxFit.fill,
-                              ),
+                              child: vegListData[index]["vegImg"]==""
+                                  ? new Image.asset("assets/image/diet.png",
+                                      fit: BoxFit.fill)
+                                  : Image.network(
+                                      vegListData[index]["vegImg"].toString(),
+                                      fit: BoxFit.fill,
+                                    ),
                             ),
                           ),
                           Container(
-                            padding:EdgeInsets.fromLTRB(0, 2, 0, 0),
+                            padding: EdgeInsets.fromLTRB(0, 2, 0, 0),
                             child: Text(
                               vegListData[index]["v_name"]
                                   .toString()
                                   .toUpperCase(),
                               style: TextStyle(fontWeight: FontWeight.bold),
-                              textAlign:TextAlign.center,
+                              textAlign: TextAlign.center,
                             ),
                           ),
                           Container(
