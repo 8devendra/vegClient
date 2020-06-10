@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
+import '../globals.dart';
 import 'package:progress_dialog/progress_dialog.dart';
 
-import './CartIcon.dart' as ab;
+//import './CartIcon.dart' as ab;
 
 import '../globals.dart' as cartVal;
 
@@ -14,21 +15,61 @@ class MainLayout extends StatefulWidget {
 
 class _MainLayoutState extends State<MainLayout> {
   List vegListData;
+  List userInfo;
 
   ProgressDialog pr;
 
-  Future addVeg(String nm, String pr, String qt) async {
+    Future getUserData(String id) async {
+    var url = 'https://devlopeme.000webhostapp.com/getNameAdd.php?uid='+id;
+    print('inUser()1');
+    print(usid);
+    try {
+
+
+      var response = await http
+          .get(Uri.encodeFull(url), headers: {"Accept": "application/json"});
+      print('inGetUser()2 ');
+      if (response.statusCode == 200) {
+        String responseBody = response.body;
+        var resJson = json.decode(responseBody); //json.encode()
+        userInfo=resJson;
+        usEmail=userInfo[0]["email"];
+        usName=userInfo[0]["userName"];
+        
+        //Fact fact=Fact.fromJson(resJson[0]);
+        //vegListData=resJson[""];
+        //pr.hide();
+        // pr.hide().then((isHidden) {
+        //   print(isHidden);
+        // });
+
+        //print(resJson);
+
+        //resJson['f_id']
+      }
+    } catch (err) {
+      // pr.hide().then((isHidden) {
+      //   print(isHidden);
+      // });
+      print(err.toString());
+      //pr.hide();
+    }
+  }
+
+  Future addVeg(String nm, String pr, String qt, String farId) async {
     print('inaddVegWebCall()');
 
-    if (nm != '' && pr != '' && qt != '') {
+    if (nm != '' && pr != '' && qt != '' && farId != '') {
       print('inaddVegWebCall()');
-      var url = 'https://devlopeme.000webhostapp.com/insertCart.php?nm=' +
+      var url = 'https://devlopeme.000webhostapp.com/insertCartTest.php?nm=' +
           nm +
           '&qty=' +
           qt +
           '&pr=' +
           pr +
-          '';
+          '&farid=' +
+          farId +
+          '&iid='+usid;
       var Response =
           await http.get(url, headers: {"Accept": "application/json"});
       if (Response.statusCode == 200) {
@@ -36,7 +77,8 @@ class _MainLayoutState extends State<MainLayout> {
         var resJson = json.decode(json.encode(responseBody));
         print(resJson);
         setState(() {
-          cartVal.cart = cartVal.cart + 1;
+          //cartVal.cart = cartVal.cart + 1;\
+          cart=cart+1;
           //ab.CartIcon.
         });
       }
@@ -49,8 +91,12 @@ class _MainLayoutState extends State<MainLayout> {
   }
 
   Future getVeg() async {
+    print('Helosda'+usid);
+    getUserData(usid);
+    
     var url = 'https://devlopeme.000webhostapp.com/get.php';
     print('inGetVeg()1');
+    print(usid);
     try {
       pr.show();
 
@@ -110,9 +156,11 @@ class _MainLayoutState extends State<MainLayout> {
                 child: InkWell(
                   onLongPress: () {
                     addVeg(
-                        vegListData[index]["v_name"].toString().toUpperCase(),
-                        vegListData[index]["v_price"].toString().toUpperCase(),
-                        1.toString());
+                      vegListData[index]["v_name"].toString().toUpperCase(),
+                      vegListData[index]["v_price"].toString().toUpperCase(),
+                      1.toString(),
+                      vegListData[index]["f_id"].toString().toUpperCase(),
+                    );
                   },
                   child: GridTile(
                     child: Container(
@@ -124,7 +172,7 @@ class _MainLayoutState extends State<MainLayout> {
                               clipBehavior: Clip.antiAlias,
 
                               //height: MediaQuery.of(context).size.width * 0.15,
-                              child: vegListData[index]["vegImg"]==""
+                              child: vegListData[index]["vegImg"] == ""
                                   ? new Image.asset("assets/image/diet.png",
                                       fit: BoxFit.fill)
                                   : Image.network(

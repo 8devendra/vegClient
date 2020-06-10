@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../globals.dart' as glob;
+import '../globals.dart' ;
 import '../cart/cartStatus.dart';
 
 class CartIcon extends StatefulWidget {
@@ -40,7 +40,7 @@ class _CartIconState extends State<CartIcon> {
                 borderRadius: BorderRadius.circular(6),
               ),
               child: Container(
-                child: new Text(0.toString(),
+                child: new Text(cart.toString(),
                     style: new TextStyle(
                         color: Colors.white,
                         fontSize: 17,

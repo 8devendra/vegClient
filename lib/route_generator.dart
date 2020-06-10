@@ -5,6 +5,8 @@ import 'package:flutter/material.dart';
 import './login/Login.dart';
 import './Home/home_page.dart';
 import './cart/cartStatus.dart';
+import './createusr/crtusr.dart';
+import './orderStatus/ordStatus.dart';
 
 class RouteGenerator {
   static Route<dynamic> generateRoute(RouteSettings settings) {
@@ -29,6 +31,24 @@ class RouteGenerator {
         if (args is String) {
           return MaterialPageRoute(
             builder: (_) => CartStatus(data: args),
+          ); // data: args
+        }
+        return _errorRoute();
+
+      case '/crtu':
+        print('inside Create User ');
+        if (args is String) {
+          return MaterialPageRoute(
+            builder: (_) => CrtUsr(data: args),
+          ); // data: args
+        }
+        return _errorRoute();
+
+      case '/ordStatus':
+        print('inside OrderStatus ');
+        if (args is String) {
+          return MaterialPageRoute(
+            builder: (_) => OrderStatus(data: args),
           ); // data: args
         }
         return _errorRoute();

@@ -3,6 +3,8 @@ import 'package:progress_dialog/progress_dialog.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 
+import '../globals.dart';
+
 class CartList extends StatefulWidget {
   @override
   _CartListState createState() => _CartListState();
@@ -33,8 +35,8 @@ class _CartListState extends State<CartList> {
     }
   }
 
-  Future getVeg() async {
-    var url = 'https://devlopeme.000webhostapp.com/cart.php';
+  Future getVeg(String id) async {
+    var url = 'https://devlopeme.000webhostapp.com/cart.php?id='+id.toString();
     print('inGetVeg()1');
     try {
       pr.show();
@@ -71,7 +73,7 @@ class _CartListState extends State<CartList> {
   @override
   void initState() {
     super.initState();
-    WidgetsBinding.instance.addPostFrameCallback((_) => getVeg());
+    WidgetsBinding.instance.addPostFrameCallback((_) => getVeg(usid));
   }
 
   Widget coListView() {
@@ -112,7 +114,7 @@ class _CartListState extends State<CartList> {
                   onPressed: () => {
                     deleteEntery(vegListData[index]["id"]),
                     
-                    getVeg(),
+                    getVeg(usid),
                   
                     //  veg.removeAt(index)
                   },
